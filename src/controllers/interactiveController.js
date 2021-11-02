@@ -37,8 +37,9 @@ const generateFavouriteHobbiesDropDown = () => ({
   ],
 });
 const moodSelectionResponse = (payload) => {
-  let selectedResponse = payload && payload.selected_options;
+  let selectedResponse = payload && payload.actions;
   selectedResponse = selectedResponse && selectedResponse[0];
+  selectedResponse = selectedResponse && selectedResponse.selected_options[0];
   if (!selectedResponse) {
     console.log(selectedResponse, payload);
     throw new Error('No response was selected');
