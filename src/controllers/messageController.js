@@ -1,4 +1,4 @@
-const { Axios } = require('axios');
+const axios = require('axios');
 const generateDropDown = require('../utils/generateDropdown');
 
 const generateHelloDropDown = (text, followUp) => {
@@ -29,7 +29,7 @@ const generateHelloDropDown = (text, followUp) => {
 };
 
 const sendDropDown = (request) => {
-    Axios.post(request.response_url, {
+    axios.post(request.response_url, {
         "blocks": [
             {
                 "type": "section",
