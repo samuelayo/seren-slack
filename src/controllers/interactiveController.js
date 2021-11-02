@@ -53,14 +53,18 @@ const processInteraction = (req, res) => {
   const { body } = req;
   let { payload } = body;
   try {
+    console.log('starting intraction')
     payload = JSON.parse(payload);
     const functionType = payload && payload.callback_id;
     if (!interactiveMap[functionType]) {
+        console.log('oops, no func')
       return res.status(400).json({ ok: false, message: 'unknown interaction' });
     }
     const result = interactiveMap[functionType](payload);
+    console.log('finishing intraction', result)
     return res.status(200).json(result);
   } catch (error) {
+    console.log('erroring intraction', error)
     return res.status(400).json({ ok: false, message: error && error.message });
   }
 };
