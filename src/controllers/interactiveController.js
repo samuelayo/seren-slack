@@ -50,7 +50,7 @@ const moodSelectionResponse = (payload) => {
     throw new Error('No response was selected');
   }
 
-  const response = generateFavouriteHobbiesDropDown('', '');
+  const response = generateFavouriteHobbiesDropDown('What is your favorite hobby', 'Select multi hobbies');
   return response;
 };
 const interactiveMap = {
