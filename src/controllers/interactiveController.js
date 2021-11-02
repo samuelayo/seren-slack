@@ -1,4 +1,5 @@
 const sendDropDown = require('../utils/sendDropdown');
+const ResponseModel = require('../models/Responses');
 
 const generateFavouriteHobbiesDropDown = (text, followUp) => {
   const options = [
@@ -67,23 +68,34 @@ const generateFavouriteHobbiesDropDown = (text, followUp) => {
   return response;
 };
 
-const moodSelectionResponse = (payload) => {
+const moodSelectionResponse = async (payload) => {
   const selectedResponse = payload && payload.actions && payload.actions[0] && payload.actions[0].selected_option;
   if (!selectedResponse) {
     console.log(selectedResponse, payload);
     throw new Error('No response was selected');
   }
-
+  const user = payload && payload.user;
+  const question = 'how are you doing?';
+  const saveResponse = new ResponseModel({
+    name: user.name, userId: user.id, question, answer: selectedResponse,
+  });
+  await saveResponse.save();
   const response = generateFavouriteHobbiesDropDown('What is your favorite hobby', 'Select multi hobbies');
   return response;
 };
 
-const hobbySelectionResponse = (payload) => {
+const hobbySelectionResponse = async(payload) => {
   const selectedResponse = payload && payload.actions && payload.actions[0] && payload.actions[0].selected_options;
   if (!selectedResponse) {
     console.log(selectedResponse, payload);
     throw new Error('No response was selected');
   }
+  const user = payload && payload.user;
+  const question = 'What is your favorite hobby?';
+  const saveResponse = new ResponseModel({
+    name: user.name, userId: user.id, question, answer: selectedResponse,
+  });
+  await saveResponse.save();
   const response = {
     blocks: [
       {
@@ -115,7 +127,7 @@ const processInteraction = async (req, res) => {
       console.log('oops, no func');
       return res.status(400).json({ ok: false, message: 'unknown interaction' });
     }
-    const result = interactiveMap[functionType](payload);
+    const result = await (interactiveMap[functionType](payload));
     console.log('finishing intraction', result);
     res.status(200).json();
     return await sendDropDown(payload, result);
