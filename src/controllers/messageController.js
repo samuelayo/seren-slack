@@ -12,7 +12,7 @@ const verifyMessage = (req, res, next) => {
   const time = Math.floor(new Date().getTime() / 1000);
 
   if (Math.abs(time - timestamp) > 300) {
-      console.log("late message", time, timestamp)
+      console.log("late message", time, timestamp);
     return res.status(400).json({ ok: false, message: 'Message appears to have been sent more than 5 mins ago' });
   }
 
@@ -22,6 +22,7 @@ const verifyMessage = (req, res, next) => {
     crypto.createHmac('sha256', slackSigningSecret)
       .update(sigBasestring, 'utf8')
       .digest('hex')}`;
+      console.log(slackSigningSecret, mySignature, slackSignature)
   if (crypto.timingSafeEqual(
     Buffer.from(mySignature, 'utf8'),
     Buffer.from(slackSignature, 'utf8'),
