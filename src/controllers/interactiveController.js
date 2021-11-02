@@ -77,7 +77,7 @@ const moodSelectionResponse = async (payload) => {
   const user = payload && payload.user;
   const question = 'how are you doing?';
   const saveResponse = new ResponseModel({
-    name: user.name, userId: user.id, question, answer: selectedResponse,
+    name: user.name, userId: user.id, question, answers: selectedResponse,
   });
   await saveResponse.save();
   const response = generateFavouriteHobbiesDropDown('What is your favorite hobby', 'Select multi hobbies');
@@ -92,8 +92,9 @@ const hobbySelectionResponse = async(payload) => {
   }
   const user = payload && payload.user;
   const question = 'What is your favorite hobby?';
+
   const saveResponse = new ResponseModel({
-    name: user.name, userId: user.id, question, answer: selectedResponse,
+    name: user.name, userId: user.id, question, answers: selectedResponse,
   });
   await saveResponse.save();
   const response = {
