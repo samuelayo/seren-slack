@@ -12,6 +12,7 @@ const schema = new Schema({
 
 schema.index({
   createdAt: 1,
+  userId: -1,
 }, {
   background: true,
 });

@@ -16,11 +16,12 @@ if (process.env.NODE_ENV === 'production') {
   app.use(morgan('dev'));
 }
 
-const rawBodySaver = function (req, _res, buf) {
+const rawBodySaver = (req, _res, buf) => {
   if (buf && buf.length) {
     req.rawBody = buf;
   }
 };
 app.use(express.urlencoded({ verify: rawBodySaver, extended: true }));
+app.use(express.json());
 
 module.exports = app;
