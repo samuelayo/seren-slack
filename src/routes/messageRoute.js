@@ -1,8 +1,8 @@
 const { Router } = require('express');
-const { processMessage } = require('../controllers/messageController');
+const { verifyMessage, processMessage } = require('../controllers/messageController');
 
 const messageRouter = new Router();
 
-messageRouter.post('/', processMessage);
+messageRouter.post('/', verifyMessage, processMessage);
 
 module.exports = messageRouter;
