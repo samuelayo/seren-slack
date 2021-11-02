@@ -46,5 +46,6 @@ module.exports = {
       },
     ],
   },
-  helloString: 'how are you doing?',
+  helloString: 'hello',
+  helloQuestion: 'how are you doing?',
 };

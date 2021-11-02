@@ -3,7 +3,7 @@ const ResponseModel = require('../models/Responses');
 const {
   favouriteHobbiesDropDown, noResponseSeleced, moodString, thankYouResponse, unknownInteraction,
 } = require('../constants/interactiveConstants');
-const { helloString } = require('../constants/messageConstants');
+const { helloQuestion } = require('../constants/messageConstants');
 
 const moodSelectionResponse = async (payload) => {
   const selectedResponse = payload && payload.actions
@@ -13,7 +13,7 @@ const moodSelectionResponse = async (payload) => {
   }
   const user = payload && payload.user;
   const saveResponse = new ResponseModel({
-    name: user.name, userId: user.id, question: helloString, answers: selectedResponse,
+    name: user.name, userId: user.id, question: helloQuestion, answers: selectedResponse,
   });
   await saveResponse.save();
   return favouriteHobbiesDropDown;
