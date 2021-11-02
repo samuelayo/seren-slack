@@ -85,7 +85,7 @@ const processMessage = (req, res) => {
     const text = `@${slackRequest.user_name} how are you doing?`;
     const followUp = 'Please select a response';
     //const dropdown = generateHelloDropDown(text, followUp);
-    res.status(200);
+    res.status(200).json({});
     return sendDropDown(slackRequest);
   }
 
