@@ -4,6 +4,7 @@ const swaggerUI = require('swagger-ui-express');
 const { connect, closeConnection } = require('./src/utils/database');
 const app = require('./src/config/express');
 const messageRoutes = require('./src/routes/messageRoute');
+const interactiveRoutes = require('./src/routes/interactiveRoute');
 const CustomError = require('./src/utils/customError');
 const swaggerFile = require('./swagger.json');
 
@@ -38,6 +39,7 @@ class Start {
     app.use('/guide', swaggerUI.serve, swaggerUI.setup(swaggerFile));
     app.use('/healthCheck', (_, res) => res.status(200).json({ ok: true, message: 'Server up! Go to /guide to see usage guide.' }));
     app.use('/messages', messageRoutes);
+    app.use('/interactive', interactiveRoutes);
     app.use((_req, _res, next) => {
       const err = new CustomError('Not Found', 404);
       err.status = 404;
