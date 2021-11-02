@@ -4,4 +4,5 @@ module.exports = {
   coveragePathIgnorePatterns: [
     '/node_modules/',
   ],
+  testPathIgnorePatterns: ['/helpers/'],
 };

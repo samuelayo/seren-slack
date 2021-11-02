@@ -4,9 +4,8 @@ const {
   hmacType, digestType, verificationFailed, oldMessageSent,
 } = require('../constants/utils');
 
-const slackSigningSecret = process.env.SLACK_SIGNING_SECRET;
-
 const verifyRequest = (req, res, next) => {
+  const slackSigningSecret = process.env.SLACK_SIGNING_SECRET;
   // message comes in
   const slackSignature = req.headers['x-slack-signature'] || req.headers['X-Slack-Signature'];
   const [version, slackHash] = slackSignature.split('=');

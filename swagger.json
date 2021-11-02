@@ -26,36 +26,294 @@
                 }
             }
         },
-        "/message": {
+        "/answers/all": {
             "post": {
-                "description": "Allows slack to send us event and messages",
+                "description": "Allows us to get all answers from all users",
                 "requestBody": {
                     "content": {
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "startDate",
-                                    "endDate",
-                                    "minCount",
-                                    "maxCount"
                                 ],
                                 "type": "object",
                                 "properties": {
-                                    "startDate": {
+                                    "limit": {
                                         "type": "string",
-                                        "example": "2013-01-06"
+                                        "example": "30"
                                     },
-                                    "endDate": {
+                                    "page": {
+                                        "type": "integer",
+                                        "example": 2
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "ok": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "totalCount": {
+                                            "type": "integer",
+                                            "example": 3
+                                        },
+                                        "paginationLimit": {
+                                            "type": "integer",
+                                            "example": 50
+                                        },
+                                        "results": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "_id": {
+                                                        "type": "string",
+                                                        "example": "uLQICSdHuLQICSdHuLQICSdH"
+                                                    },
+                                                    "createdAt": {
+                                                        "type": "string",
+                                                        "example": "2017-01-27T08:19:14.135Z"
+                                                    },
+                                                    "userId": {
+                                                        "type": "string",
+                                                        "example": "uLQICSdH"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "samson"
+                                                    },
+                                                    "question": {
+                                                        "type": "string",
+                                                        "example": "What is your favorite hobby?"
+                                                    },
+                                                    "answers": {
+                                                        "type": "array",
+                                                        "example": [
+                                                            {
+                                                                "text": {
+                                                                    "type": "plain_text",
+                                                                    "text": "Movies",
+                                                                    "emoji": true
+                                                                },
+                                                                "value": "Movies"
+                                                            }]
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "ok": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Could not be completed"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/answers/:userId": {
+            "post": {
+                "description": "Allows us to get all answers from a user",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "limit": {
                                         "type": "string",
-                                        "example": "2016-01-12"
+                                        "example": "30"
                                     },
-                                    "minCount": {
+                                    "page": {
                                         "type": "integer",
-                                        "example": 2700
+                                        "example": 2
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "ok": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "totalCount": {
+                                            "type": "integer",
+                                            "example": 3
+                                        },
+                                        "paginationLimit": {
+                                            "type": "integer",
+                                            "example": 50
+                                        },
+                                        "results": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "_id": {
+                                                        "type": "string",
+                                                        "example": "uLQICSdHuLQICSdHuLQICSdH"
+                                                    },
+                                                    "createdAt": {
+                                                        "type": "string",
+                                                        "example": "2017-01-27T08:19:14.135Z"
+                                                    },
+                                                    "userId": {
+                                                        "type": "string",
+                                                        "example": "uLQICSdH"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "samson"
+                                                    },
+                                                    "question": {
+                                                        "type": "string",
+                                                        "example": "What is your favorite hobby?"
+                                                    },
+                                                    "answers": {
+                                                        "type": "array",
+                                                        "example": [
+                                                            {
+                                                                "text": {
+                                                                    "type": "plain_text",
+                                                                    "text": "Movies",
+                                                                    "emoji": true
+                                                                },
+                                                                "value": "Movies"
+                                                            }]
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "ok": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Could not be completed"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/messages": {
+            "post": {
+                "description": "Endpoint to process slack messages",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "token": {
+                                        "type": "string",
+                                        "example": "DekXm5jnABUKXBJG7VrxWjJS"
                                     },
-                                    "maxCount": {
-                                        "type": "integer",
-                                        "example": 2800
+                                    "team_id": {
+                                        "type": "string",
+                                        "example": "T02KF0772CF"
+                                    },
+                                    "team_domain": {
+                                        "type": "string",
+                                        "example": "serentestgroup"
+                                    },
+                                    "channel_id": {
+                                        "type": "string",
+                                        "example": "C02KNU5TVT8"
+                                    },
+                                    "channel_name": {
+                                        "type": "string",
+                                        "example": "project"
+                                    },
+                                    "user_id": {
+                                        "type": "string",
+                                        "example": "U02KVL42CP4"
+                                    },
+                                    "user_name": {
+                                        "type": "string",
+                                        "example": "sammy"
+                                    },
+                                    "command": {
+                                        "type": "string",
+                                        "example": "/bot"
+                                    }, 
+                                    "text": {
+                                        "type": "string",
+                                        "example": "hello"
+                                    },
+                                    "api_app_id": {
+                                        "type": "string",
+                                        "example": "A02KVMQ1SV8"
+                                    },
+                                    "is_enterprise_install": {
+                                        "type": "boolean",
+                                        "example": false
+                                    },
+                                    "response_url": {
+                                        "type": "string",
+                                        "example": "https://hooks.slack.com/commands/T02KF0772CF/2676425965490/pRT9EBU2oD7daSoJSCcYSZn4"
+                                    },
+                                    "trigger_id": {
+                                        "type": "string",
+                                        "example": "2673439541269.2661007240423.d8db122f86ded9734c02736cdb60d88f"
                                     }
                                 }
                             }
@@ -68,44 +326,7 @@
                         "description": "Success"
                     },
                     "400": {
-                        "description": "Invalid request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "code": {
-                                            "type": "number",
-                                            "example": 0
-                                        },
-                                        "msg": {
-                                            "type": "string",
-                                            "example": "Success"
-                                        },
-                                        "records": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object",
-                                                "properties": {
-                                                    "key": {
-                                                        "type": "string",
-                                                        "example": "uLQICSdH"
-                                                    },
-                                                    "createdAt": {
-                                                        "type": "string",
-                                                        "example": "2017-01-27T08:19:14.135Z"
-                                                    },
-                                                    "totalCount": {
-                                                        "type": "integer",
-                                                        "example": 2900
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        "description": "Verification failed"
                     }
                 }
             }

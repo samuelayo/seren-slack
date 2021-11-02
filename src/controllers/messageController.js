@@ -1,6 +1,10 @@
 const sendDropDown = require('../utils/sendDropdown');
 const { helloDropdown, helloString } = require('../constants/messageConstants');
 
+/**
+ * @param {*} req -> express request object
+ * @param {*} res -> express response object
+ */
 const processMessage = async (req, res) => {
   const slackRequest = req.body;
   const { challenge } = slackRequest;
