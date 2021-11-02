@@ -40,6 +40,7 @@ const moodSelectionResponse = (payload) => {
   let selectedResponse = payload && payload.selected_options;
   selectedResponse = selectedResponse && selectedResponse[0];
   if (!selectedResponse) {
+    console.log(selectedResponse, payload);
     throw new Error('No response was selected');
   }
 
