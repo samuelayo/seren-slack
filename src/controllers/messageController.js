@@ -1,11 +1,10 @@
 const crypto = require('crypto');
-const qs = require('qs');
 
 const slackSigningSecret = process.env.SLACK_SIGNING_SECRET;
 
 const verifyMessage = (req, res, next) => {
   // message comes in
-  const slackRequest = qs.stringify(req.body, { format: 'RFC1738' });
+  const slackRequest = req.rawBody.toString('utf8');
   const slackSignature = req.headers['x-slack-signature'];
   const timestamp = req.headers['X-Slack-Request-Timestamp'];
   // convert current time from milliseconds to seconds
