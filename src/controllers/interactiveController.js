@@ -76,8 +76,30 @@ const moodSelectionResponse = (payload, selectedResponse) => {
   const response = generateFavouriteHobbiesDropDown('What is your favorite hobby', 'Select multi hobbies');
   return response;
 };
+
+const hobbySelecttionResponse = (payload, selectedResponse) => {
+    if (!selectedResponse) {
+        console.log(selectedResponse, payload);
+        throw new Error('No response was selected');
+      }
+      const response = {
+        "blocks": [
+            {
+                "type": "section",
+                "text": {
+                    "type": "plain_text",
+                    "text": "Thank you.",
+                    "emoji": true
+                }
+            }
+        ]
+    }
+     return response;
+}
+
 const interactiveMap = {
   mood_selection: moodSelectionResponse,
+  hobby_selection: hobbySelecttionResponse
 };
 const processInteraction = async (req, res) => {
   const { body } = req;
