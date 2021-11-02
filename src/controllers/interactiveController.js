@@ -1,15 +1,10 @@
 const generateDropDown = require('../utils/generateDropdown');
 
-const generateFavouriteHobbiesDropDown = () => (
-  {
-    type: 'section',
-    block_id: 'section678',
-    text: {
-      type: 'mrkdwn',
-      text: 'Pick items from the list',
-    },
-    accessory: {
-      action_id: 'text1234',
+const generateFavouriteHobbiesDropDown = (text, followUp) => {
+  const actions = [
+    {
+      name: 'hobbies_list',
+      text: 'Pick a response...',
       type: 'multi_static_select',
       placeholder: {
         type: 'plain_text',
@@ -39,7 +34,13 @@ const generateFavouriteHobbiesDropDown = () => (
         },
       ],
     },
-  });
+  ];
+
+  const callbackId = 'hobby_selection';
+  const fallbackText = 'If you could read this message, you\'d be choosing something you are feeling';
+  return generateDropDown(text, followUp, callbackId, actions, fallbackText);
+};
+
 const moodSelectionResponse = (payload) => {
   let selectedResponse = payload && payload.actions;
   selectedResponse = selectedResponse && selectedResponse[0];
@@ -49,7 +50,7 @@ const moodSelectionResponse = (payload) => {
     throw new Error('No response was selected');
   }
 
-  const response = generateFavouriteHobbiesDropDown();
+  const response = generateFavouriteHobbiesDropDown('', '');
   return response;
 };
 const interactiveMap = {
