@@ -69,7 +69,39 @@ const processInteraction = (req, res) => {
     }
     const result = interactiveMap[functionType](payload);
     console.log('finishing intraction', result);
-    return res.status(200).json(result);
+    return res.status(200).json({
+        "type": "input",
+        "element": {
+            "type": "multi_static_select",
+            placeholder: {
+                type: 'plain_text',
+                text: 'Select items',
+              },
+              options: [
+                {
+                  text: {
+                    type: 'plain_text',
+                    text: '*this is plain_text text*',
+                  },
+                  value: 'value-0',
+                },
+                {
+                  text: {
+                    type: 'plain_text',
+                    text: '*this is plain_text text*',
+                  },
+                  value: 'value-1',
+                },
+                {
+                  text: {
+                    type: 'plain_text',
+                    text: '*this is plain_text text*',
+                  },
+                  value: 'value-2',
+                },
+              ],
+        }
+    });
   } catch (error) {
     console.log('erroring intraction', error);
     return res.status(400).json({ ok: false, message: error && error.message });
