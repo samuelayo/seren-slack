@@ -3,23 +3,29 @@ const sendDropDown = require('../utils/sendDropdown');
 const generateHelloDropDown = (text, followUp) => {
   const options = [
     {
-      name: 'mood_list',
-      text: 'Pick a response...',
-      type: 'select',
-      options: [
-        {
-          text: 'Doing Well',
-          value: 'Doing Well',
-        },
-        {
-          text: 'Neutral',
-          value: 'Neutral',
-        },
-        {
-          text: 'Feeling Lucky',
-          value: 'Feeling Lucky',
-        },
-      ],
+      text: {
+        type: 'plain_text',
+        text: 'Doing Well',
+        emoji: true,
+      },
+      value: 'Doing Well',
+    },
+    {
+      text: {
+        type: 'plain_text',
+        text: 'Neutral',
+        emoji: true,
+      },
+      value: 'Neutral',
+    },
+
+    {
+      text: {
+        type: 'plain_text',
+        text: 'Feeling Lucky',
+        emoji: true,
+      },
+      value: 'Feeling Lucky',
     },
   ];
   const callbackId = 'mood_selection';

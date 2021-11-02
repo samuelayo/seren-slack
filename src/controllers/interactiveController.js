@@ -3,24 +3,43 @@ const sendDropDown = require('../utils/sendDropdown');
 const generateFavouriteHobbiesDropDown = (text, followUp) => {
   const options = [
     {
-      name: 'mood_list',
-      text: 'Pick a response...',
-      type: 'select',
-      options: [
-        {
-          text: 'Doing Well',
-          value: 'Doing Well',
-        },
-        {
-          text: 'Neutral',
-          value: 'Neutral',
-        },
-        {
-          text: 'Feeling Lucky',
-          value: 'Feeling Lucky',
-        },
-      ],
+      text: {
+        type: 'plain_text',
+        text: 'Football',
+      },
+      value: 'Football',
     },
+
+    {
+      text: {
+        type: 'plain_text',
+        text: 'Music',
+      },
+      value: 'Music',
+    },
+    {
+      text: {
+        type: 'plain_text',
+        text: 'Sleep',
+      },
+      value: 'Sleep',
+    },
+
+    {
+      text: {
+        type: 'plain_text',
+        text: 'Movies',
+      },
+      value: 'Movies',
+    },
+    {
+      text: {
+        type: 'plain_text',
+        text: 'Basketball',
+      },
+      value: 'Basketball',
+    },
+
   ];
 
   const callbackId = 'hobby_selection';
@@ -66,7 +85,7 @@ const processInteraction = async (req, res) => {
   try {
     console.log('starting intraction');
     payload = JSON.parse(payload);
-    console.log(payload)
+    console.log(payload);
     const functionType = payload && payload.actions && payload.actions[0] && payload.actions[0].action_id;
     if (!interactiveMap[functionType]) {
       console.log('oops, no func');
