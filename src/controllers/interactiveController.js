@@ -48,10 +48,7 @@ const generateFavouriteHobbiesDropDown = (text, followUp) => {
   return response;
 };
 
-const moodSelectionResponse = (payload) => {
-  let selectedResponse = payload && payload.actions;
-  selectedResponse = selectedResponse && selectedResponse[0];
-  selectedResponse = selectedResponse && selectedResponse.selected_options[0];
+const moodSelectionResponse = (payload, selectedResponse) => {
   if (!selectedResponse) {
     console.log(selectedResponse, payload);
     throw new Error('No response was selected');
@@ -69,12 +66,14 @@ const processInteraction = (req, res) => {
   try {
     console.log('starting intraction');
     payload = JSON.parse(payload);
+    console.log(payload)
     const functionType = payload && payload.actions && payload.actions[0] && payload.actions[0].action_id;
     if (!interactiveMap[functionType]) {
       console.log('oops, no func');
       return res.status(400).json({ ok: false, message: 'unknown interaction' });
     }
-    const result = interactiveMap[functionType](payload);
+    const selected = payload && payload.actions && payload.actions[0] && payload.actions[0].selected_option;
+    const result = interactiveMap[functionType](payload, selected);
     console.log('finishing intraction', result);
     res.status(200).json();
     return sendDropDown(payload, result);
