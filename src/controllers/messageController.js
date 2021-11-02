@@ -3,6 +3,9 @@ const crypto = require('crypto');
 const slackSigningSecret = process.env.SLACK_SIGNING_SECRET;
 
 const verifyMessage = (req, res, next) => {
+
+  console.log(req.headers)
+  console.log(req.body)
   // message comes in
   const slackSignature = req.headers['x-slack-signature'];
   const [version, slackHash] = slackSignature.split('=');
@@ -15,7 +18,7 @@ const verifyMessage = (req, res, next) => {
     return res.status(400).json({ ok: false, message: 'Message appears to have been sent more than 5 mins ago' });
   }
 
-  const sigBasestring = `${version}:${timestamp}:${req.rawBody}`;
+  const sigBasestring = `${version}:${timestamp}:${JSON.stringify(req.body)}`;
 
   const hmac = crypto.createHmac('sha256', slackSigningSecret);
   hmac.update(sigBasestring);
