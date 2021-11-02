@@ -47,7 +47,7 @@ const generateHelloDropDown = (text, followUp) => {
   return response;
 };
 
-const processMessage = (req, res) => {
+const processMessage = async (req, res) => {
   const slackRequest = req.body;
   const { challenge } = slackRequest;
   if (challenge) return res.json(challenge).end();
@@ -56,7 +56,8 @@ const processMessage = (req, res) => {
     const followUp = 'Please select a response';
     res.status(200).json();
     const dropdown = generateHelloDropDown(text, followUp);
-    return sendDropDown(slackRequest, dropdown);
+    // eslint-disable-next-line no-return-await
+    return await sendDropDown(slackRequest, dropdown);
   }
 
   return res.status(200).json({ ok: true });

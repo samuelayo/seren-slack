@@ -60,7 +60,7 @@ const moodSelectionResponse = (payload, selectedResponse) => {
 const interactiveMap = {
   mood_selection: moodSelectionResponse,
 };
-const processInteraction = (req, res) => {
+const processInteraction = async (req, res) => {
   const { body } = req;
   let { payload } = body;
   try {
@@ -76,7 +76,7 @@ const processInteraction = (req, res) => {
     const result = interactiveMap[functionType](payload, selected);
     console.log('finishing intraction', result);
     res.status(200).json();
-    return sendDropDown(payload, result);
+    return await sendDropDown(payload, result);
   } catch (error) {
     console.log('erroring intraction', error);
     return res.status(400).json({ ok: false, message: error && error.message });
