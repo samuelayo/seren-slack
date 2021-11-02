@@ -23,7 +23,6 @@
     "mongoose": "^6.0.12",
     "morgan": "^1.10.0",
     "node-graceful-shutdown": "^1.1.0",
-    "qs": "^6.10.1",
     "raw-body": "^2.4.1",
     "swagger-ui-express": "^4.1.6"
   },

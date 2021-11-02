@@ -1,7 +1,8 @@
 const dotenv = require('dotenv');
-const Start = require('./start');
 
 dotenv.config();
+const Start = require('./start');
+
 try {
   const startUp = new Start();
   startUp.startExpress();
