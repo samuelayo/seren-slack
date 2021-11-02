@@ -4,7 +4,7 @@ const slackSigningSecret = process.env.SLACK_SIGNING_SECRET;
 
 const verifyMessage = (req, res, next) => {
   // message comes in
-  const slackRequest = req.rawBody.toString('utf8');
+  const slackRequest = JSON.stringify(req.body);
   const slackSignature = req.headers['x-slack-signature'];
   const timestamp = req.headers['X-Slack-Request-Timestamp'];
   // convert current time from milliseconds to seconds
