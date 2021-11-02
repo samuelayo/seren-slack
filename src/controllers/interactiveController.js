@@ -1,6 +1,6 @@
 const generateDropDown = require('../utils/generateDropdown');
 
-const generateFavouriteHobbiesDropDown = () => ([
+const generateFavouriteHobbiesDropDown = () => (
   {
     type: 'section',
     block_id: 'section678',
@@ -39,8 +39,7 @@ const generateFavouriteHobbiesDropDown = () => ([
         },
       ],
     },
-  },
-]);
+  });
 const moodSelectionResponse = (payload) => {
   let selectedResponse = payload && payload.actions;
   selectedResponse = selectedResponse && selectedResponse[0];
