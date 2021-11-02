@@ -67,7 +67,8 @@ const generateFavouriteHobbiesDropDown = (text, followUp) => {
   return response;
 };
 
-const moodSelectionResponse = (payload, selectedResponse) => {
+const moodSelectionResponse = (payload) => {
+  const selectedResponse = payload && payload.actions && payload.actions[0] && payload.actions[0].selected_option;
   if (!selectedResponse) {
     console.log(selectedResponse, payload);
     throw new Error('No response was selected');
@@ -77,29 +78,30 @@ const moodSelectionResponse = (payload, selectedResponse) => {
   return response;
 };
 
-const hobbySelecttionResponse = (payload, selectedResponse) => {
-    if (!selectedResponse) {
-        console.log(selectedResponse, payload);
-        throw new Error('No response was selected');
-      }
-      const response = {
-        "blocks": [
-            {
-                "type": "section",
-                "text": {
-                    "type": "plain_text",
-                    "text": "Thank you.",
-                    "emoji": true
-                }
-            }
-        ]
-    }
-     return response;
-}
+const hobbySelectionResponse = (payload) => {
+  const selectedResponse = payload && payload.actions && payload.actions[0] && payload.actions[0].selected_options;
+  if (!selectedResponse) {
+    console.log(selectedResponse, payload);
+    throw new Error('No response was selected');
+  }
+  const response = {
+    blocks: [
+      {
+        type: 'section',
+        text: {
+          type: 'plain_text',
+          text: 'Thank you.',
+          emoji: true,
+        },
+      },
+    ],
+  };
+  return response;
+};
 
 const interactiveMap = {
   mood_selection: moodSelectionResponse,
-  hobby_selection: hobbySelecttionResponse
+  hobby_selection: hobbySelectionResponse,
 };
 const processInteraction = async (req, res) => {
   const { body } = req;
@@ -113,8 +115,7 @@ const processInteraction = async (req, res) => {
       console.log('oops, no func');
       return res.status(400).json({ ok: false, message: 'unknown interaction' });
     }
-    const selected = payload && payload.actions && payload.actions[0] && payload.actions[0].selected_option;
-    const result = interactiveMap[functionType](payload, selected);
+    const result = interactiveMap[functionType](payload);
     console.log('finishing intraction', result);
     res.status(200).json();
     return await sendDropDown(payload, result);
