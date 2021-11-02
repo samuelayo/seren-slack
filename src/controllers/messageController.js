@@ -1,8 +1,7 @@
-const axios = require('axios');
-const generateDropDown = require('../utils/generateDropdown');
+const sendDropDown = require('../utils/sendDropdown');
 
 const generateHelloDropDown = (text, followUp) => {
-  const actions = [
+  const options = [
     {
       name: 'mood_list',
       text: 'Pick a response...',
@@ -24,58 +23,29 @@ const generateHelloDropDown = (text, followUp) => {
     },
   ];
   const callbackId = 'mood_selection';
-  const fallbackText = 'If you could read this message, you\'d be choosing something you are feeling';
-  return generateDropDown(text, followUp, callbackId, actions, fallbackText);
+  const response = {
+    blocks: [
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text,
+        },
+        accessory: {
+          type: 'static_select',
+          placeholder: {
+            type: 'plain_text',
+            text: followUp,
+            emoji: true,
+          },
+          options,
+          action_id: callbackId,
+        },
+      },
+    ],
+  };
+  return response;
 };
-
-const sendDropDown = (request) => {
-    axios.post(request.response_url, {
-        "blocks": [
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": "Pick an item from the dropdown list"
-                },
-                "accessory": {
-                    "type": "static_select",
-                    "placeholder": {
-                        "type": "plain_text",
-                        "text": "Select an item",
-                        "emoji": true
-                    },
-                    "options": [
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": "*this is plain_text text*",
-                                "emoji": true
-                            },
-                            "value": "value-0"
-                        },
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": "*this is plain_text text*",
-                                "emoji": true
-                            },
-                            "value": "value-1"
-                        },
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": "*this is plain_text text*",
-                                "emoji": true
-                            },
-                            "value": "value-2"
-                        }
-                    ],
-                    "action_id": "static_select-action"
-                }
-            }
-        ]
-    })
-}
 
 const processMessage = (req, res) => {
   const slackRequest = req.body;
@@ -84,9 +54,9 @@ const processMessage = (req, res) => {
   if (slackRequest.text === 'hello') {
     const text = `@${slackRequest.user_name} how are you doing?`;
     const followUp = 'Please select a response';
-    //const dropdown = generateHelloDropDown(text, followUp);
     res.status(200).json();
-    return sendDropDown(slackRequest);
+    const dropdown = generateHelloDropDown(text, followUp);
+    return sendDropDown(slackRequest, dropdown);
   }
 
   return res.status(200).json({ ok: true });

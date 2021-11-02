@@ -1,31 +1,51 @@
-const generateDropDown = require('../utils/generateDropdown');
+const sendDropDown = require('../utils/sendDropdown');
 
 const generateFavouriteHobbiesDropDown = (text, followUp) => {
-    const actions = [
+  const options = [
+    {
+      name: 'mood_list',
+      text: 'Pick a response...',
+      type: 'select',
+      options: [
         {
-          name: 'mood_list',
-          text: 'Pick a response...',
-          type: 'select',
-          options: [
-            {
-              text: 'Doing Well',
-              value: 'Doing Well',
-            },
-            {
-              text: 'Neutral',
-              value: 'Neutral',
-            },
-            {
-              text: 'Feeling Lucky',
-              value: 'Feeling Lucky',
-            },
-          ],
+          text: 'Doing Well',
+          value: 'Doing Well',
         },
-      ];
+        {
+          text: 'Neutral',
+          value: 'Neutral',
+        },
+        {
+          text: 'Feeling Lucky',
+          value: 'Feeling Lucky',
+        },
+      ],
+    },
+  ];
 
   const callbackId = 'hobby_selection';
-  const fallbackText = 'If you could read this message, you\'d be choosing something you are feeling';
-  return generateDropDown(text, followUp, callbackId, actions, fallbackText);
+  const response = {
+    blocks: [
+      {
+        type: 'section',
+        block_id: 'section678',
+        text: {
+          type: 'mrkdwn',
+          text,
+        },
+        accessory: {
+          action_id: callbackId,
+          type: 'multi_static_select',
+          placeholder: {
+            type: 'plain_text',
+            text: followUp,
+          },
+          options,
+        },
+      },
+    ],
+  };
+  return response;
 };
 
 const moodSelectionResponse = (payload) => {
@@ -49,14 +69,15 @@ const processInteraction = (req, res) => {
   try {
     console.log('starting intraction');
     payload = JSON.parse(payload);
-    const functionType = payload && payload.callback_id;
+    const functionType = payload && payload.actions && payload.actions[0] && payload.actions[0].action_id;
     if (!interactiveMap[functionType]) {
       console.log('oops, no func');
       return res.status(400).json({ ok: false, message: 'unknown interaction' });
     }
     const result = interactiveMap[functionType](payload);
     console.log('finishing intraction', result);
-    return res.status(200).json(result);
+    res.status(200).json();
+    return sendDropDown(payload, result);
   } catch (error) {
     console.log('erroring intraction', error);
     return res.status(400).json({ ok: false, message: error && error.message });
