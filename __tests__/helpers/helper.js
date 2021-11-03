@@ -9,4 +9,4 @@ const generateSlackSignature = (timestamp, body) => {
 
 module.exports = {
   generateSlackSignature,
-}
+};
