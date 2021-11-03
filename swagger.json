@@ -2,7 +2,7 @@
     "openapi": "3.0.0",
     "info": {
         "title": "seren slack",
-        "description": "seren challenge",
+        "description": "seren slack challenge. A group of endpoints that implement slack bot interactions. Please be sure to pass in correct header values for `x-slack-signature` and `x-slack-request-timestamp` to avoid failed requests.",
         "version": "1.0.0",
         "contact": {
             "email": "hi@samuel.com.ng"
@@ -314,6 +314,38 @@
                                     "trigger_id": {
                                         "type": "string",
                                         "example": "2673439541269.2661007240423.d8db122f86ded9734c02736cdb60d88f"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Verification failed"
+                    }
+                }
+            }
+        },
+        "/interactions": {
+            "post": {
+                "description": "Endpoint to process slack interactions",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "payload"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "payload": {
+                                        "type": "string",
+                                        "example": "{\"user\":{\"id\":\"test\",\"name\":\"test\"},\"actions\":[{\"action_id\":\"hobby_selection\",\"selected_options\":[{\"text\":{\"type\":\"plain_text\",\"text\":\"Movies\",\"emoji\":true},\"value\":\"Movies\"}]}]}"
                                     }
                                 }
                             }

@@ -12,7 +12,7 @@ const verifyRequest = (req, res, next) => {
   const timestamp = req.headers['x-slack-request-timestamp'] || req.headers['X-Slack-Request-Timestamp'];
   // convert current time from milliseconds to seconds
   const time = Math.floor(new Date().getTime() / 1000);
-
+ 
   if (Math.abs(time - timestamp) > 300) {
     return res.status(400).json({ ok: false, message: oldMessageSent });
   }

@@ -44,6 +44,21 @@ describe('message Integration tests', () => {
     expect(res.statusCode).toEqual(200);
   });
 
+  it('Should return 200 ok when a challenge is sent ', async () => {
+    const signatureEvent = {
+      text: 'hello',
+      challenge: 'fghjkldfsghj',
+    };
+    const event = qs.stringify(signatureEvent, { format: 'RFC1738' });
+    const timestamp = Math.floor(Date.now() / 1000);
+    const res = await request.post(`${END_POINT_MESSAGE}`)
+      .set('x-slack-signature', generateSlackSignature(timestamp, event))
+      .set('x-slack-request-timestamp', timestamp)
+      .send(event);
+    expect(res.body).toEqual(signatureEvent.challenge);
+    expect(res.statusCode).toEqual(200);
+  });
+
   it('Should return 200 ok and text and a field of ok true when text is not hellp ', async () => {
     const signatureEvent = {
       text: 'help',
